@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+
+  <!-- Fonts + Bootstrap -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f0f2f5, #d9e4ff);
+      margin: 0;
+      padding-bottom: 50px;
+    }
+
+    .navbar {
+      background-color: #2f2f2f;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-brand {
+      color: #fff;
+      font-weight: 600;
+      font-size: 20px;
+      text-decoration: none;
+    }
+
+    .nav-links a {
+      color: #ccc;
+      margin-left: 20px;
+      text-decoration: none;
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+    }
+
+    .container-main {
+      padding: 40px 5%;
+    }
+
+    h3 {
+      font-weight: 600;
+      color: #333;
+    }
+
+    /* Summary Cards */
+    .stats-row {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      flex: 1;
+      min-width: 180px;
+      margin: 10px;
+      padding: 20px;
+      border-radius: 12px;
+      background-color: #fff;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+      text-align: center;
+    }
+
+    .stat-card h4 {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .stat-card span {
+      font-size: 24px;
+      font-weight: 600;
+      color: #28a745;
+    }
+
+    /* Styled Table */
+    .styled-table {
+      width: 100%;
+      background-color: #fff;
+      border-radius: 12px;
+      border: 2px solid #28a745;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .styled-table thead {
+      background: #28a745;
+      color: white;
+      font-weight: 600;
+    }
+
+    .styled-table th,
+    .styled-table td {
+      padding: 14px 20px;
+      text-align: left;
+      vertical-align: middle;
+      border: 1px solid #ccc;
+    }
+
+    .styled-table tbody tr:hover {
+      background-color: #f9f9f9;
+    }
+
+    .form-inline-table {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: nowrap;
+    }
+
+    .form-inline-table select {
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 14px;
+      min-width: 130px;
+    }
+
+    .form-inline-table button {
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 14px;
+    }
+
+    .form-inline-table select:focus,
+    .form-inline-table button:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  </style>
+</head>
+<body>
+
+
+  <!-- Main Content -->
+  <div class="container-main">
+    <h3>Hello {{user.name}} !!!</h3>
+
+    <!-- Stats Row with Filter Buttons -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <h4>Total Complaints</h4>
+        <span>{{totalCount}}</span><br>
+        <a href="/admin/filter/total" class="btn btn-outline-primary btn-sm mt-2">Show</a>
+      </div>
+      <div class="stat-card">
+        <h4>Pending</h4>
+        <span>{{pendingCount}}</span><br>
+        <a href="/admin/filter/pending" class="btn btn-outline-warning btn-sm mt-2">Show</a>
+      </div>
+      <div class="stat-card">
+        <h4>Assigned</h4>
+        <span>{{assignedCount}}</span><br>
+        <a href="/admin/filter/assigned" class="btn btn-outline-info btn-sm mt-2">Show</a>
+      </div>
+      <div class="stat-card">
+        <h4>Resolved</h4>
+        <span>{{resolvedCount}}</span><br>
+        <a href="/admin/filter/resolved" class="btn btn-outline-success btn-sm mt-2">Show</a>
+      </div>
+    </div>
+
+    <!-- Complaint Table -->
+    <table class="table styled-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Customer Name</th>
+          <th>Customer Contact</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Assign Engineer</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each complaints}}
+        <tr>
+          <td>{{_id}}</td>
+          <td>{{name}}</td>
+          <td>{{contact}}</td>
+          <td>{{desc}}</td>
+          <td>{{status}}</td>
+          <td>
+            {{#if (or (eq status 'pending') (eq status 'assigned'))}}
+            <form method="POST" action="/assign" class="form-inline-table">
+              <input type="hidden" name="complaintID" value="{{_id}}">
+              <select name="engineerName" class="form-control form-control-sm" required>
+                <option disabled selected>Choose</option>
+                {{#each ../engineer}}
+                  <option value="{{username}}">{{username}}</option>
+                {{/each}}
+              </select>
+              <button type="submit" class="btn btn-success btn-sm">Assign</button>
+            </form>
+            {{else}}
+            <span>-</span>
+            {{/if}}
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>

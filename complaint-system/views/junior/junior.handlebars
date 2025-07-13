@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Junior Engineer Dashboard</title>
+
+  <!-- Google Fonts + Bootstrap -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f0f2f5, #d9e4ff);
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background-color: #2f2f2f;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-brand {
+      color: #fff;
+      font-weight: 600;
+      font-size: 20px;
+      text-decoration: none;
+    }
+
+    .nav-links a {
+      color: #ccc;
+      margin-left: 20px;
+      text-decoration: none;
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+    }
+
+    .dashboard-container {
+      padding: 40px 60px;
+    }
+
+    .dashboard-container h2 {
+      font-weight: 600;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .project-card {
+      background: #fff;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      margin-bottom: 25px;
+      border-left: 5px solid #ffc107;
+    }
+
+    .project-card h5 {
+      font-weight: 600;
+      color: #222;
+    }
+
+    .project-card p {
+      color: #555;
+      margin-top: 8px;
+    }
+
+    .btn-primary {
+      border-radius: 8px;
+      font-weight: 500;
+      padding: 6px 14px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+
+
+  <!-- Dashboard Content -->
+  <div class="dashboard-container">
+    <h2>Hello Junior Engineer </h2>
+
+    {{#if complaints.length}}
+      {{#each complaints}}
+      <div class="project-card">
+        <h5>Complaint #{{_id}} - {{desc}}</h5>
+        <p><strong>Customer Name:</strong> {{name}}</p>
+        <p><strong>Contact:</strong> {{contact}}</p>
+        <p><strong>Status:</strong> {{status}}</p>
+        {{#if (eq status 'assigned')}}
+        <form method="POST" action="/resolve">
+          <input type="hidden" name="complaintID" value="{{_id}}">
+          <button type="submit" class="btn btn-primary">Mark as Resolved</button>
+        </form>
+        {{else}}
+        <span class="badge badge-success">Resolved</span>
+        {{/if}}
+      </div>
+      {{/each}}
+    {{else}}
+      <div class="alert alert-info">No complaints assigned to you.</div>
+    {{/if}}
+  </div>
+
+</body>
+</html>

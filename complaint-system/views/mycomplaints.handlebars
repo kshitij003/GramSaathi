@@ -1,0 +1,25 @@
+<h2>My Registered Complaints</h2>
+<br>
+{{#if myComplaints.length}}
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Description</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each myComplaints}}
+      <tr>
+        <td>{{_id}}</td>
+        <td>{{desc}}</td>
+        <td>{{status}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+{{else}}
+  <div class="alert alert-info">You have not registered any complaints yet.</div>
+{{/if}}
+<a href="/" class="btn btn-secondary mt-3">Back to Dashboard</a> 

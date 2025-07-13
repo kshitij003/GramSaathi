@@ -1,0 +1,32 @@
+{
+  "name": "complaint-system",
+  "version": "1.0.0",
+  "description": "A simple Complaint System with Auth using Passport",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
+  },
+  "keywords": [
+    "complaint",
+    "system"
+  ],
+  "author": "Jatin Varlyani",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.10.0",
+    "bcryptjs": "*",
+    "body-parser": "*",
+    "connect-flash": "*",
+    "express": "*",
+    "express-handlebars": "*",
+    "express-messages": "*",
+    "express-session": "*",
+    "express-validator": "*",
+    "mongodb": "^6.17.0",
+    "mongoose": "^8.16.1",
+    "passport": "*",
+    "passport-http": "*",
+    "passport-local": "*"
+  }
+}
